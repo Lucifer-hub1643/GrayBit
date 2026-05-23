@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "graybit-labs",
+  "account_id": "afca0372ae9140479a33445c552e26ed",
+  "compatibility_date": "2025-09-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "src/server.ts",
+  "observability": {
+    "enabled": true
+  },
+  "routes": [
+    { "pattern": "graybitlabs.com", "custom_domain": true },
+    { "pattern": "www.graybitlabs.com", "custom_domain": true }
+  ]
+}

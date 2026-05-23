@@ -1,0 +1,523 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * GrayBit Labs design system.
+ * Black, silver, electric blue — driven by the logo.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-display: "Outfit", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* ── GrayBit palette ── */
+  --gray-950: oklch(0.04 0.003 250);
+  --gray-900: oklch(0.09 0.005 250);
+  --gray-800: oklch(0.14 0.006 250);
+  --gray-700: oklch(0.22 0.007 250);
+  --gray-600: oklch(0.38 0.008 250);
+  --gray-400: oklch(0.58 0.01 250);
+  --gray-200: oklch(0.82 0.005 250);
+  --gray-100: oklch(0.92 0.003 250);
+  --gray-50:  oklch(0.98 0 0);
+
+  /* ── Semantic tokens ── */
+  --background:           oklch(0.04 0.003 250);
+  --foreground:           oklch(0.98 0 0);
+  --card:                 oklch(0.09 0.005 250);
+  --card-foreground:      oklch(0.98 0 0);
+  --popover:              oklch(0.09 0.005 250);
+  --popover-foreground:   oklch(0.98 0 0);
+  --primary:              oklch(0.98 0 0);
+  --primary-foreground:   oklch(0.04 0.003 250);
+  --secondary:            oklch(0.14 0.006 250);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted:                oklch(0.14 0.006 250);
+  --muted-foreground:     oklch(0.70 0.008 250);
+
+  /* ── Brand accent: electric blue (matches "Bit" in logo) ── */
+  --accent:               oklch(0.62 0.24 258);
+  --accent-glow:          oklch(0.72 0.28 252);
+  --accent-foreground:    oklch(0.04 0.003 250);
+
+  --destructive:          oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(0.97 0.005 250);
+  --border:               oklch(0.98 0 0 / 0.08);
+  --input:                oklch(0.98 0 0 / 0.10);
+  --ring:                 oklch(0.62 0.24 258);
+
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  --sidebar:                    oklch(0.09 0.005 250);
+  --sidebar-foreground:         oklch(0.98 0 0);
+  --sidebar-primary:            oklch(0.62 0.24 258);
+  --sidebar-primary-foreground: oklch(0.04 0.003 250);
+  --sidebar-accent:             oklch(0.14 0.006 250);
+  --sidebar-accent-foreground:  oklch(0.98 0 0);
+  --sidebar-border:             oklch(0.98 0 0 / 0.08);
+  --sidebar-ring:               oklch(0.62 0.24 258);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-background);
+  }
+
+  /* Disable native smooth-scroll when Lenis is active (Lenis manages it) */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  html.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* ── Custom blue arrow cursor (fine pointer only) ──────────────────── */
+  @media (hover: hover) and (pointer: fine) {
+    html, body {
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><defs><filter id='g' x='-50%25' y='-50%25' width='200%25' height='200%25'><feGaussianBlur stdDeviation='1.2' result='b'/><feMerge><feMergeNode in='b'/><feMergeNode in='SourceGraphic'/></feMerge></filter></defs><path d='M3 2 L3 20 L8 16 L11 23 L14 21.7 L11 14.7 L18 14.7 Z' fill='%233d7eff' stroke='%23ffffff' stroke-width='1.4' stroke-linejoin='round' filter='url(%23g)'/></svg>") 3 2, auto;
+    }
+
+    a, button, [role="button"], [data-cursor="grow"],
+    input[type="submit"], input[type="button"], label[for], summary {
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'><defs><filter id='g' x='-50%25' y='-50%25' width='200%25' height='200%25'><feGaussianBlur stdDeviation='1.5' result='b'/><feMerge><feMergeNode in='b'/><feMergeNode in='SourceGraphic'/></feMerge></filter></defs><circle cx='15' cy='15' r='8' fill='none' stroke='%233d7eff' stroke-width='2' filter='url(%23g)'/><circle cx='15' cy='15' r='3' fill='%233d7eff' filter='url(%23g)'/></svg>") 15 15, pointer;
+    }
+
+    input[type="text"], input[type="email"], input[type="tel"], input[type="search"],
+    input[type="password"], input[type="number"], input[type="url"], textarea {
+      cursor: text;
+    }
+  }
+}
+
+/* ─── Utilities ─────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-mono    { font-family: var(--font-mono); }
+
+  /* Dot-grid background for hero sections */
+  .grid-pattern {
+    background-image:
+      radial-gradient(circle, color-mix(in oklab, var(--color-foreground) 6%, transparent) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Denser pixel grid (for hero, matches logo motif) */
+  .pixel-grid {
+    background-image:
+      linear-gradient(color-mix(in oklab, var(--color-accent) 8%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklab, var(--color-accent) 8%, transparent) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 50% at 50% 50%, black, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 50%, black, transparent 80%);
+  }
+
+  /* Vertical rule used in section labels */
+  .label-line::before {
+    content: "";
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    background-color: var(--color-accent);
+    vertical-align: middle;
+    margin-right: 0.75rem;
+  }
+
+  /* ─── Brand text gradients (mirror the logo) ─────────────────────────── */
+
+  .text-silver {
+    background: linear-gradient(
+      180deg,
+      oklch(0.98 0 0) 0%,
+      oklch(0.78 0.005 250) 60%,
+      oklch(0.55 0.008 250) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .text-electric {
+    background: linear-gradient(
+      180deg,
+      oklch(0.78 0.22 252) 0%,
+      oklch(0.62 0.26 258) 60%,
+      oklch(0.45 0.24 262) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 0 18px color-mix(in oklab, var(--color-accent) 35%, transparent));
+  }
+
+  /* ─── Scroll reveal states (legacy ScrollReveal) ─────────────────────── */
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.reveal-left  { transform: translateX(-24px); }
+  .reveal.reveal-right { transform: translateX(24px); }
+  .reveal.reveal-scale { transform: scale(0.95); }
+  .reveal.is-visible   { opacity: 1; transform: none; }
+
+  /* ─── Keyframes ──────────────────────────────────────────────────────── */
+
+  @keyframes reveal-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-accent) 40%, transparent); }
+    50%      { box-shadow: 0 0 22px 5px color-mix(in oklab, var(--color-accent) 22%, transparent); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%      { transform: translateY(-10px); }
+  }
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes scan-line {
+    from { transform: translateY(-100%); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    to   { transform: translateY(100vh); opacity: 0; }
+  }
+  @keyframes shimmer {
+    from { background-position: -200% center; }
+    to   { background-position: 200% center; }
+  }
+  @keyframes aurora {
+    0%   { transform: translate3d(0,0,0) rotate(0deg); }
+    50%  { transform: translate3d(-3%, 2%, 0) rotate(2deg); }
+    100% { transform: translate3d(0,0,0) rotate(0deg); }
+  }
+  @keyframes pixel-drift {
+    0%   { transform: translate3d(0,0,0); opacity: 0; }
+    10%  { opacity: 1; }
+    100% { transform: translate3d(60px, -40px, 0); opacity: 0; }
+  }
+  @keyframes ring-expand {
+    0%   { transform: scale(0.6); opacity: 0.8; }
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+
+  /* ─── Animation utility classes ───────────────────────────────────────── */
+
+  .animate-reveal     { animation: reveal-up 0.8s cubic-bezier(0.16,1,0.3,1) both; }
+  .animate-fade-in    { animation: fade-in 0.6s ease both; }
+  .animate-marquee    { animation: marquee 35s linear infinite; }
+  .animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+  .animate-float      { animation: float 6s ease-in-out infinite; }
+  .animate-spin-slow  { animation: spin-slow 12s linear infinite; }
+  .animate-aurora     { animation: aurora 22s ease-in-out infinite; }
+  .animate-ring       { animation: ring-expand 2.4s cubic-bezier(0.16,1,0.3,1) infinite; }
+
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+  .animate-delay-500 { animation-delay: 500ms; }
+  .animate-delay-600 { animation-delay: 600ms; }
+
+  /* Shimmer gradient text */
+  .text-shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--color-foreground) 0%,
+      var(--color-accent) 40%,
+      var(--color-foreground) 80%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+  }
+
+  /* Accent glow effect */
+  .accent-glow {
+    text-shadow: 0 0 30px color-mix(in oklab, var(--color-accent) 60%, transparent);
+  }
+
+  /* Card with glowing border on hover */
+  .card-glow {
+    position: relative;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .card-glow::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, transparent, color-mix(in oklab, var(--color-accent) 35%, transparent), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .card-glow:hover::before { opacity: 1; }
+
+  /* Gradient border button */
+  .btn-accent {
+    background: linear-gradient(135deg, var(--color-accent), color-mix(in oklab, var(--color-accent) 70%, white 5%));
+    color: var(--color-accent-foreground);
+    font-weight: 600;
+    border-radius: 0.6rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    box-shadow: 0 6px 28px -8px color-mix(in oklab, var(--color-accent) 60%, transparent);
+  }
+
+  .btn-accent:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 40px -8px color-mix(in oklab, var(--color-accent) 70%, transparent);
+    opacity: 0.96;
+  }
+
+  .btn-accent:active { transform: translateY(0); }
+
+  /* Ghost button */
+  .btn-ghost {
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
+    border-radius: 0.6rem;
+    background: color-mix(in oklab, var(--color-foreground) 2%, transparent);
+    backdrop-filter: blur(8px);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .btn-ghost:hover {
+    background: color-mix(in oklab, var(--color-foreground) 5%, transparent);
+    border-color: color-mix(in oklab, var(--color-accent) 50%, transparent);
+    transform: translateY(-1px);
+  }
+
+  /* Footer links — quiet default, clear hover */
+  .footer-link {
+    color: color-mix(in oklab, var(--color-foreground) 72%, transparent);
+    transition: color 0.15s ease;
+  }
+
+  .footer-link:hover {
+    color: var(--color-foreground);
+  }
+
+  /* Noise texture overlay */
+  .noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.3;
+    mix-blend-mode: overlay;
+  }
+
+  /* Horizontal scanning line decoration */
+  .scan-decoration {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scan-decoration::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+    animation: scan-line 6s ease-in-out infinite;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* ─── Floating-label form field ──────────────────────────────────────── */
+
+  .field-float {
+    position: relative;
+  }
+
+  .field-float input,
+  .field-float textarea {
+    width: 100%;
+    background: color-mix(in oklab, var(--color-foreground) 3%, transparent);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    padding: 1.5rem 1rem 0.6rem;
+    color: var(--color-foreground);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .field-float textarea {
+    resize: vertical;
+    min-height: 8.5rem;
+    padding-top: 1.7rem;
+  }
+
+  .field-float input:focus,
+  .field-float textarea:focus {
+    border-color: color-mix(in oklab, var(--color-accent) 70%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent) 18%, transparent);
+    background: color-mix(in oklab, var(--color-foreground) 5%, transparent);
+  }
+
+  .field-float label {
+    position: absolute;
+    left: 1rem;
+    top: 1.05rem;
+    color: var(--color-muted-foreground);
+    pointer-events: none;
+    transition: transform 0.2s ease, color 0.2s ease, font-size 0.2s ease;
+    font-size: 0.95rem;
+    transform-origin: left top;
+  }
+
+  .field-float input:focus + label,
+  .field-float input:not(:placeholder-shown) + label,
+  .field-float textarea:focus + label,
+  .field-float textarea:not(:placeholder-shown) + label {
+    transform: translateY(-0.85rem) scale(0.78);
+    color: var(--color-accent);
+  }
+
+  .field-float .err {
+    color: var(--color-destructive);
+    font-size: 0.75rem;
+    margin-top: 0.4rem;
+  }
+
+  /* ─── Pixel burst (success animation, matches logo dissolve) ─────────── */
+
+  .pixel-burst {
+    position: relative;
+    width: 100%;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .pixel-burst span {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 6px;
+    height: 6px;
+    background: var(--color-accent);
+    box-shadow: 0 0 8px color-mix(in oklab, var(--color-accent) 80%, transparent);
+    animation: pixel-drift 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* ─── Reduced motion: kill all animations ────────────────────────────── */
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
