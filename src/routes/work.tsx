@@ -15,13 +15,13 @@ export const Route = createFileRoute("/work")({
       {
         name: "description",
         content:
-          "Case studies from GrayBit Labs. AI systems built for e-commerce, legal, logistics, and healthcare clients.",
+          "Selected work from GrayBit Labs. Marketplaces, computer vision platforms, and AI-powered sales systems built for production.",
       },
       { property: "og:title", content: `Work | ${COMPANY.name}` },
       {
         property: "og:description",
         content:
-          "Production AI deployments across e-commerce, legal, logistics, and healthcare.",
+          "SkyBridge, VisionAtlas, and LeadIntel. Production platforms for drone services, computer vision, and sales automation.",
       },
     ],
   }),
@@ -57,9 +57,10 @@ function WorkPage() {
           </h1>
           <SectionReveal delay={500}>
             <p className="mt-7 max-w-2xl text-foreground/70 text-base md:text-lg leading-relaxed">
-              A selection of AI systems we've shipped into production. Most of
-              our work is under NDA. Reach out and we'll share what's relevant
-              to your industry.
+              Platforms we have designed and built end to end: marketplaces,
+              computer vision systems, and AI-powered sales infrastructure.
+              Each project below shows what the product does, what we shipped,
+              and the capabilities behind it.
             </p>
           </SectionReveal>
         </div>

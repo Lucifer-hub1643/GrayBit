@@ -122,12 +122,42 @@ function PanoramicPanel({
         <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent mb-4">
           {study.sector} / {study.year}
         </p>
-        <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-tight">
+        <h2 className="font-display text-4xl md:text-5xl lg:text-[3.25rem] font-semibold tracking-tight leading-[1.05]">
           <span className="text-silver">{study.name}</span>
         </h2>
-        <p className="mt-5 text-foreground/70 leading-relaxed max-w-md text-[15px] md:text-base">
+        <p className="mt-4 text-foreground/85 text-base md:text-lg leading-snug max-w-md">
+          {study.tagline}
+        </p>
+        <p className="mt-4 text-foreground/70 leading-relaxed max-w-md text-[15px]">
           {study.blurb}
         </p>
+
+        <div className="mt-6">
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground mb-3">
+            What we built
+          </p>
+          <p className="text-foreground/75 text-[14.5px] leading-relaxed max-w-md">
+            {study.role}
+          </p>
+        </div>
+
+        <div className="mt-6">
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground mb-3">
+            Key capabilities
+          </p>
+          <ul className="space-y-2.5 max-w-md">
+            {study.capabilities.map((item) => (
+              <li
+                key={item}
+                className="flex items-start gap-2.5 text-[14px] text-foreground/75 leading-relaxed"
+              >
+                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <div className="mt-6 flex flex-wrap gap-2">
           {study.tags.map((tag) => (
             <span
@@ -164,7 +194,26 @@ function CasePanel({ study }: { study: CaseStudy }) {
         {study.sector} / {study.year}
       </p>
       <h3 className="text-2xl font-semibold tracking-tight">{study.name}</h3>
-      <p className="text-foreground/70 text-[14.5px] mt-2 leading-relaxed">{study.blurb}</p>
+      <p className="text-foreground/85 text-[15px] mt-2 leading-snug">{study.tagline}</p>
+      <p className="text-foreground/70 text-[14.5px] mt-3 leading-relaxed">{study.blurb}</p>
+
+      <div className="mt-5">
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground mb-2">
+          Key capabilities
+        </p>
+        <ul className="space-y-2">
+          {study.capabilities.map((item) => (
+            <li
+              key={item}
+              className="flex items-start gap-2 text-[13.5px] text-foreground/75 leading-relaxed"
+            >
+              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <div className="mt-4 flex flex-wrap gap-2">
         {study.tags.map((tag) => (
           <span

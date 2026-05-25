@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
-import { useMemo, useRef, Suspense } from "react";
+import { useMemo, useRef, Suspense, type RefObject } from "react";
 import * as THREE from "three";
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -8,8 +8,42 @@ import * as THREE from "three";
  *   - Silver wireframe icosahedron (the brain)
  *   - Floating outer ring (synaptic field)
  *   - Electric-blue pixel cube swarm (the dissolving "Bit" pixels)
- * Reacts to mouse parallax + auto-rotates.
+ * Follows hero-level pointer with smooth tilt (not tied to canvas hover).
  * ────────────────────────────────────────────────────────────────────────── */
+
+export type HeroPointer = { x: number; y: number };
+
+function ParallaxRig({
+  children,
+  pointerRef,
+}: {
+  children: React.ReactNode;
+  pointerRef: RefObject<HeroPointer>;
+}) {
+  const group = useRef<THREE.Group>(null!);
+  const smooth = useRef({ x: 0, y: 0, ry: 0, rx: 0 });
+
+  useFrame((_, delta) => {
+    if (!group.current) return;
+
+    const mx = pointerRef.current?.x ?? 0;
+    const my = pointerRef.current?.y ?? 0;
+    // Frame-rate independent easing — responsive but not snappy/jittery.
+    const k = 1 - Math.exp(-5 * delta);
+
+    smooth.current.x += (mx * 0.42 - smooth.current.x) * k;
+    smooth.current.y += (my * 0.3 - smooth.current.y) * k;
+    smooth.current.ry += (mx * 0.38 - smooth.current.ry) * k;
+    smooth.current.rx += (my * 0.24 - smooth.current.rx) * k;
+
+    group.current.position.x = smooth.current.x;
+    group.current.position.y = smooth.current.y;
+    group.current.rotation.y = smooth.current.ry;
+    group.current.rotation.x = smooth.current.rx;
+  });
+
+  return <group ref={group}>{children}</group>;
+}
 
 function BrainCore() {
   const group = useRef<THREE.Group>(null!);
@@ -19,11 +53,6 @@ function BrainCore() {
     const t = state.clock.getElapsedTime();
     group.current.rotation.y = t * 0.18;
     group.current.rotation.x = Math.sin(t * 0.35) * 0.12;
-    // mouse parallax
-    const mx = state.pointer.x;
-    const my = state.pointer.y;
-    group.current.position.x += (mx * 0.25 - group.current.position.x) * 0.06;
-    group.current.position.y += (my * 0.18 - group.current.position.y) * 0.06;
   });
 
   return (
@@ -152,7 +181,7 @@ function PixelSwarm({ count = 320 }: { count?: number }) {
   );
 }
 
-function SceneContents() {
+function SceneContents({ pointerRef }: { pointerRef: RefObject<HeroPointer> }) {
   return (
     <>
       <ambientLight intensity={0.35} />
@@ -160,26 +189,34 @@ function SceneContents() {
       <pointLight position={[-3, -2, 4]} color="#3d7eff" intensity={3} distance={10} />
       <pointLight position={[4, 2, -2]} color="#7cb4ff" intensity={1.8} distance={8} />
 
-      <Float speed={1.4} rotationIntensity={0.4} floatIntensity={0.4}>
-        <BrainCore />
-      </Float>
+      <ParallaxRig pointerRef={pointerRef}>
+        <Float speed={1.4} rotationIntensity={0.4} floatIntensity={0.4}>
+          <BrainCore />
+        </Float>
 
-      <PixelSwarm count={320} />
+        <PixelSwarm count={320} />
+      </ParallaxRig>
     </>
   );
 }
 
-export default function BrainHero({ className = "" }: { className?: string }) {
+export default function BrainHero({
+  className = "",
+  pointerRef,
+}: {
+  className?: string;
+  pointerRef: RefObject<HeroPointer>;
+}) {
   return (
-    <div className={`absolute inset-0 ${className}`}>
+    <div className={`absolute inset-0 pointer-events-none ${className}`}>
       <Canvas
         camera={{ position: [0, 0, 4.8], fov: 42 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-        style={{ background: "transparent" }}
+        style={{ background: "transparent", pointerEvents: "none" }}
       >
         <Suspense fallback={null}>
-          <SceneContents />
+          <SceneContents pointerRef={pointerRef} />
         </Suspense>
       </Canvas>
     </div>

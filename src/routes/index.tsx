@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Zap, Sparkles } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 import { SiteLayout } from "@/components/SiteLayout";
 import { NeuralCanvas } from "@/components/NeuralCanvas";
@@ -14,6 +14,7 @@ import { Magnetic } from "@/components/Magnetic";
 import { TiltCard } from "@/components/TiltCard";
 import { Counter } from "@/components/Counter";
 import { Marquee } from "@/components/Marquee";
+import type { HeroPointer } from "@/components/BrainHero";
 
 import {
   COMPANY,
@@ -56,12 +57,45 @@ function HomePage() {
 
 function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const pointerRef = useRef<HeroPointer>({ x: 0, y: 0 });
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 80]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0]);
+
+  // Track pointer across the full hero (including over text/buttons).
+  useEffect(() => {
+    const section = ref.current;
+    if (!section) return;
+
+    function update(clientX: number, clientY: number) {
+      const rect = section!.getBoundingClientRect();
+      const nx = ((clientX - rect.left) / rect.width) * 2 - 1;
+      const ny = ((clientY - rect.top) / rect.height) * 2 - 1;
+      pointerRef.current = {
+        x: Math.max(-1, Math.min(1, nx)),
+        y: Math.max(-1, Math.min(1, -ny)),
+      };
+    }
+
+    function onMove(e: MouseEvent) {
+      update(e.clientX, e.clientY);
+    }
+
+    function onLeave() {
+      pointerRef.current = { x: 0, y: 0 };
+    }
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    section.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      section.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
 
   return (
     <section
@@ -80,7 +114,7 @@ function Hero() {
       <div className="absolute inset-0 hidden md:block opacity-90">
         <ClientOnly>
           <Suspense fallback={null}>
-            <BrainHero />
+            <BrainHero pointerRef={pointerRef} />
           </Suspense>
         </ClientOnly>
       </div>
@@ -316,8 +350,8 @@ function SelectedWork() {
           </Magnetic>
         </SectionReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-          {CASE_STUDIES.slice(0, 4).map((c, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          {CASE_STUDIES.slice(0, 3).map((c, i) => (
             <SectionReveal key={c.name} delay={i * 100} direction="up">
               <ParallaxCaseCard study={c} />
             </SectionReveal>
@@ -364,6 +398,9 @@ function ParallaxCaseCard({ study }: { study: (typeof CASE_STUDIES)[number] }) {
           <h4 className="text-xl md:text-2xl font-semibold tracking-tight group-hover:text-accent transition-colors duration-200">
             {study.name}
           </h4>
+          <p className="text-foreground/85 text-[14px] mt-1.5 leading-snug max-w-md line-clamp-2">
+            {study.tagline}
+          </p>
           <p className="text-foreground/70 text-[14.5px] mt-2 leading-relaxed max-w-md line-clamp-2">
             {study.blurb}
           </p>

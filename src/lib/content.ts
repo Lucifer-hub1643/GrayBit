@@ -424,61 +424,76 @@ export interface CaseStudy {
   name: string;
   sector: string;
   year: string;
+  tagline: string;
   blurb: string;
+  role: string;
+  capabilities: string[];
   result: string;
   tags: string[];
-  span: string;
   image: string;
 }
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
-    name: "RetailMind",
-    sector: "E-Commerce",
+    name: "SkyBridge",
+    sector: "Drone Services",
     year: "2025",
+    tagline: "A platform that connects clients with drone pilots for aerial projects.",
     blurb:
-      "Fine-tuned a customer-support LLM on three years of tickets for a fast-growing D2C brand. Inbound ticket volume dropped 67%. Average resolution time fell from four hours to under eight minutes.",
-    result: "67% fewer support tickets",
-    tags: ["LLM Fine-tuning", "Chatbots", "NLP"],
-    span: "lg:col-span-7",
+      "SkyBridge is a two-sided marketplace for the drone services industry. Businesses and individuals describe what they need filmed or inspected, compare quotes from qualified pilots, and manage the full job in one place, from booking through delivery and payment. On the other side, operators showcase their work, respond to jobs, run missions step by step, and handle billing without juggling spreadsheets and email threads.",
+    role:
+      "We built the backend that powers the platform: booking flows, project lifecycle, notifications, payments, file delivery, and airspace compliance checks before work begins.",
+    capabilities: [
+      "Client job requests, quote comparison, and live project tracking",
+      "Pilot profiles, mission management, team coordination, and deliverable uploads",
+      "Integrated booking, invoicing, and payment flows",
+      "Pre-flight airspace and compliance validation",
+    ],
+    result: "Two-sided drone marketplace",
+    tags: ["Marketplace", "Booking", "Payments", "Compliance"],
     image:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=1400&q=80",
   },
   {
-    name: "LexaAI",
-    sector: "LegalTech",
+    name: "VisionAtlas",
+    sector: "Computer Vision",
     year: "2025",
+    tagline: "AI-assisted labeling, review, and model training in one platform.",
     blurb:
-      "Multi-agent RAG that reviews contracts across ten jurisdictions in seconds. It flags risk clauses, identifies inconsistencies, and drafts redlines that match what a senior associate would write.",
-    result: "90% faster contract review",
-    tags: ["RAG", "AI Agents", "LegalTech"],
-    span: "lg:col-span-5",
+      "VisionAtlas is a labeling and training studio for computer vision teams. Annotators stay fast with click-and-box segmentation, natural-language prompts, and video-aware workflows. Leads keep quality tight with review paths and dataset versioning. Approved data moves straight into detection and segmentation model training without switching tools.",
+    role:
+      "We engineered the platform core: labeling pipelines, assistant runtimes, review and versioning systems, multi-tenant training job orchestration, and workflow automation for teams scaling annotation work.",
+    capabilities: [
+      "Smart labeling with click, box, prompt, and video assistance",
+      "Roles, review workflows, chat, and dataset versioning",
+      "YOLO, Detectron2, and RF-DETR training with fair job queuing",
+      "Workflow builder, imports, exports, and preprocessing hooks",
+    ],
+    result: "Label to train in one place",
+    tags: ["Computer Vision", "Labeling", "Model Training", "MLOps"],
     image:
-      "https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80",
   },
   {
-    name: "FleetCore",
-    sector: "Logistics",
-    year: "2024",
+    name: "LeadIntel",
+    sector: "Sales Automation",
+    year: "2025",
+    tagline:
+      "Find the right people, reach them on every channel, and let AI close the conversation.",
     blurb:
-      "AI-driven route optimization for two thousand vehicles across eight distribution hubs. Empty miles down 28%. Planning time from six hours to under ninety seconds.",
-    result: "28% reduction in empty miles",
-    tags: ["Optimization", "ML", "Operations"],
-    span: "lg:col-span-5",
+      "LeadIntel is a fully automated sales outreach platform for businesses that need more pipeline without hiring a larger sales team. Enter a company name and the platform finds decision-makers, pulls verified contact details, and reaches out across email, LinkedIn, WhatsApp, and live AI phone calls. Every action is logged in real time so clients see exactly who was contacted, what was said, and what happened next.",
+    role:
+      "We built the backend orchestration: contact enrichment, multi-channel delivery, conversational voice agents, real-time activity logging, white-label configuration, and a knowledge base that improves from call transcripts over time.",
+    capabilities: [
+      "Automated contact research with verified emails, phones, and LinkedIn profiles",
+      "Personalised outreach across email, LinkedIn, WhatsApp, and voice in parallel",
+      "Conversational AI calls in Hindi or English with objection handling and meeting booking",
+      "White-label setup, live dashboard, and learning knowledge base from past conversations",
+    ],
+    result: "Multi-channel outreach on autopilot",
+    tags: ["Voice AI", "Outreach", "White-label", "Automation"],
     image:
-      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=80",
-  },
-  {
-    name: "MedBase",
-    sector: "Healthcare",
-    year: "2024",
-    blurb:
-      "HIPAA-compliant clinical-decision copilot grounded in a hospital's own protocols. Forty minutes saved per clinician per shift on documentation and compliance charting.",
-    result: "40 min saved per clinician shift",
-    tags: ["RAG", "Healthcare AI", "Compliance"],
-    span: "lg:col-span-7",
-    image:
-      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80",
   },
 ];
 
