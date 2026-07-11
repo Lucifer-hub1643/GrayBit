@@ -37,7 +37,7 @@ export function SiteFooter() {
               <img
                 src="/graybit-logo.png"
                 alt="GrayBit Labs"
-                width={280}
+                width={267}
                 height={82}
                 loading="lazy"
                 decoding="async"

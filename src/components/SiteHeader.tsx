@@ -33,7 +33,7 @@ export function SiteHeader() {
           <img
             src="/graybit-logo.png"
             alt="GrayBit Labs"
-            width={275}
+            width={260}
             height={80}
             loading="eager"
             decoding="async"
