@@ -207,6 +207,12 @@ export default function BrainHero({
   className?: string;
   pointerRef: RefObject<HeroPointer>;
 }) {
+  // Skip the animated 3D scene entirely when the user prefers reduced motion.
+  const reduceMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) return null;
+
   return (
     <div className={`absolute inset-0 pointer-events-none ${className}`}>
       <Canvas

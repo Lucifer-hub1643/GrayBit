@@ -105,8 +105,10 @@ function Hero() {
       {/* Layer 1: Aurora gradient */}
       <AuroraShader />
 
-      {/* Layer 2: Neural canvas (always renders, fallback for 3D) */}
-      <div className="absolute inset-0 opacity-50">
+      {/* Layer 2: Neural canvas — mobile-only fallback where the 3D scene is
+          hidden. On md+ the BrainHero renders instead, so we don't pay for
+          both at once. */}
+      <div className="absolute inset-0 opacity-50 md:hidden">
         <NeuralCanvas className="pointer-events-none" />
       </div>
 

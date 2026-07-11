@@ -53,19 +53,32 @@ export function NeuralCanvas({ className = "" }: { className?: string }) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // Respect the user's motion preference — a CSS media query can't stop a JS
+    // requestAnimationFrame loop, so guard it here. When reduced motion is
+    // requested, render nothing and never start the loop.
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
     // ─── Resize handler ───────────────────────────────────────────────────
     function resize() {
       if (!canvas) return;
-      canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-      ctx!.scale(window.devicePixelRatio, window.devicePixelRatio);
+      const dpr = window.devicePixelRatio;
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      // setTransform (not scale) so repeated resizes reset the transform
+      // instead of compounding the DPR scale each time.
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     function initNodes() {
       if (!canvas) return;
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
-      nodesRef.current = Array.from({ length: NODE_COUNT }, () => {
+      // Fewer nodes on small screens — the connection pass is O(n²).
+      const nodeCount = w < 768 ? Math.round(NODE_COUNT * 0.5) : NODE_COUNT;
+      nodesRef.current = Array.from({ length: nodeCount }, () => {
         const angle = Math.random() * Math.PI * 2;
         const speed = (Math.random() * 0.6 + 0.4) * BASE_SPEED;
         return {
@@ -285,14 +298,47 @@ export function NeuralCanvas({ className = "" }: { className?: string }) {
       }
       pulsesRef.current = livePulses;
 
-      rafRef.current = requestAnimationFrame(draw);
+      if (running) rafRef.current = requestAnimationFrame(draw);
     }
 
-    rafRef.current = requestAnimationFrame(draw);
+    // ─── Run control — pause when off-screen or the tab is hidden ─────────
+    let running = false;
+    let onScreen = true;
+
+    function start() {
+      if (running || !onScreen || document.hidden) return;
+      running = true;
+      rafRef.current = requestAnimationFrame(draw);
+    }
+    function stop() {
+      running = false;
+      cancelAnimationFrame(rafRef.current);
+    }
+
+    // Pause the loop once the hero scrolls out of view.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        onScreen = entry.isIntersecting;
+        if (onScreen) start();
+        else stop();
+      },
+      { threshold: 0 }
+    );
+    io.observe(canvas);
+
+    function onVisibility() {
+      if (document.hidden) stop();
+      else start();
+    }
+    document.addEventListener("visibilitychange", onVisibility);
+
+    start();
 
     return () => {
-      cancelAnimationFrame(rafRef.current);
+      stop();
       ro.disconnect();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
       canvas.removeEventListener("mousemove", onMouseMove);
       canvas.removeEventListener("mouseleave", onMouseLeave);
       window.removeEventListener("scroll", onScroll);

@@ -18,7 +18,7 @@ export const COMPANY = {
   tagline: "Where intelligence becomes infrastructure.",
   description:
     "GrayBit Labs is an AI engineering studio. We ship production-ready AI for businesses that need real results: fine-tuned LLMs, multi-agent systems, conversational and voice AI, RAG, computer vision, and the web and mobile apps that put them in your users' hands.",
-  email: "graybitlabs@gmail.com",
+  email: "career@graybitlabs.com",
   phones: [
     { display: "+91 81789 24588", href: "tel:+918178924588", whatsapp: "https://wa.me/918178924588" },
     { display: "+91 93540 70060", href: "tel:+919354070060", whatsapp: "https://wa.me/919354070060" },

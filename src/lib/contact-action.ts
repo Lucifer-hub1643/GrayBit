@@ -46,7 +46,7 @@ export const submitContactForm = createServerFn({ method: "POST" })
   .inputValidator(contactSchema)
   .handler(async ({ data }) => {
     const apiKey = process.env.RESEND_API_KEY;
-    const toEmail = process.env.CONTACT_EMAIL ?? "graybitlabs@gmail.com";
+    const toEmail = process.env.CONTACT_EMAIL ?? "career@graybitlabs.com";
 
     if (apiKey) {
       try {
